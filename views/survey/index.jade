@@ -12,14 +12,14 @@ block content
           th 설문 등록 시간
           th
       tbody
-        each user in users
+        each survey in surveys
           tr
             td
-              a(href='/users/#{user._id}')= user.name
-            td= user.email
-            td= moment(user.createdAt).format('YYYY-MM-DD HH:mm:ss')
+              a(href='/survey/show')= survey.name
+            td= survey.content
+            td= moment(survey.createdAt).format('YYYY-MM-DD HH:mm:ss')
             td
-              a.btn.btn-xs.btn-default(href='/users/#{user._id}/edit') 수정
+              a.btn.btn-xs.btn-default(href='/survey/#{survey._id}/edit') 수정
 
-              a.btn.btn-xs.btn-default(href='/users/#{user._id}?_method=DELETE') 삭제
-    a.btn.btn-primary(href='/users/new') 설문 추가
+              a.btn.btn-xs.btn-default(href='/survey/#{survey._id}?_method=DELETE') 삭제
+    a.btn.btn-primary(href='/survey/new') 설문 추가
