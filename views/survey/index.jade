@@ -15,7 +15,7 @@ block content
         each survey in surveys
           tr
             td
-              a(href='/survey/show')= survey.name
+              a(href='/survey/#{survey._id}')= survey.name
             td= survey.content
             td= moment(survey.createdAt).format('YYYY-MM-DD HH:mm:ss')
             td

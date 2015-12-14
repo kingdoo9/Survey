@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var Survey = require('../models/survey');
+var Survey = require('../models/survey'),
+    User = require('../models/User');
 var Question = require('../models/Question');
-
 
 function needAuth(req, res, next) {
   if (req.isAuthenticated()) {
@@ -15,6 +15,7 @@ function needAuth(req, res, next) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+
   Survey.find({}, function(err, surveys) {
     if (err) {
       return next(err);
@@ -36,8 +37,8 @@ router.post('/', function(req, res, next) {
       req.flash('success','됬어요!!!!!');
 
     });
-
-    Question.find({belongto : 'new'}, function(err,questions){
+    for(var i=0; i<req.user.NumQue; i++){
+      Question.findOne({belongto : 'new'}, function(err,questions){
 
         questions.content1 = req.body.select1 || 'N/A';
         questions.content2 = req.body.select2 || 'N/A';
@@ -46,15 +47,29 @@ router.post('/', function(req, res, next) {
         questions.content5 = req.body.select5 || 'N/A';
         questions.belongto = NewSurvey.id;
 
+
+        questions.save(function(err){
+          if(err){
+            return next(err);
+          }
+        });
+      });
+    }
+
+    req.user.NumQue = 0;
+    req.user.save(function(err){
+      if(err){
+        next(err);
+      }
     });
 
     Survey.find({}, function(err, surveys) {
         if (err) {
           return next(err);
         }
-        res.render('/survey/index', {surveys: surveys});
+        res.redirect('/survey');
     });
-});
+  });
 
 router.get('/new', needAuth, function(req, res, next) {
   Question.find({belongto : 'new'}, function(err,questions){
@@ -67,6 +82,14 @@ router.get('/new', needAuth, function(req, res, next) {
 });
 
 router.post('/new/Question1', function(req, res, next) {
+
+    req.user.NumQue =+ 1;
+    req.user.save(function(err){
+      if(err){
+        next(err);
+      }
+    });
+
   var Nquestion = new Question({
     name: 'Selection',
     content1: 'N/A',
@@ -89,9 +112,20 @@ router.post('/new/Question1', function(req, res, next) {
 });
 
 router.post('/new/Question2', function(req, res, next) {
+    req.user.NumQue =+ 1;
+    req.user.save(function(err){
+      if(err){
+        next(err);
+      }
+    });
+
   var Nquestion = new Question({
     name: 'OneQueText',
-    content: 'string',
+    content1: 'N/A',
+    content2: 'N/A',
+    content3: 'N/A',
+    content4: 'N/A',
+    content5: 'N/A',
     number: 2,
     belongto: 'new'
   });
@@ -105,10 +139,21 @@ router.post('/new/Question2', function(req, res, next) {
     res.redirect('/survey/new');
   });
 });
+
 router.post('/new/Question3', function(req, res, next) {
+  req.user.NumQue =+ 1;
+  req.user.save(function(err){
+    if(err){
+      next(err);
+    }
+  });
   var Nquestion = new Question({
     name: 'Opinion',
-    content: 'string',
+    content1: 'N/A',
+    content2: 'N/A',
+    content3: 'N/A',
+    content4: 'N/A',
+    content5: 'N/A',
     number: 3,
     belongto: 'new'
   });
@@ -123,5 +168,19 @@ router.post('/new/Question3', function(req, res, next) {
   });
 });
 
+router.get('/:id', function(req, res, next) {
+  Survey.findById(req.params.id, function(err, survey) {
+    if (err) {
+      return next(err);
+    }
+
+    Question.find({belongto : survey.id}, function(err, questions){
+      if (err) {
+        return next(err);
+      }
+        res.render('survey/show', {survey: survey, questions: questions});
+    });
+  });
+});
 
 module.exports = router;

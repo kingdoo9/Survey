@@ -15,11 +15,7 @@ block content
         if (question.name=='Selection')
           p
             label(for='Quename') 객관식
-            input.form-control(type='text', id='textarea', placeholder='Question here')
-            .input-group
-              .input-group-addon
-                input(type='radio', name='select')
-              input.form-control(type='text', id='textarea', name='select1')
+            input.form-control(type='text', id='textarea', placeholder='Question here', name='select1')
             .input-group
               .input-group-addon
                 input(type='radio', name='select')
@@ -32,6 +28,10 @@ block content
               .input-group-addon
                 input(type='radio', name='select')
               input.form-control(type='text', id='textarea', name='select4')
+            .input-group
+              .input-group-addon
+                input(type='radio', name='select')
+              input.form-control(type='text', id='textarea', name='select5')
         else if(question.name=='OneQueText')
           p
             label(for='Quename') 단일입력

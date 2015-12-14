@@ -7,6 +7,7 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   margin-top: 50px;
   padding-top: 1em;
+  padding-bottom: 60px;
   & > .main-content {
     min-height: 400px;
   }
@@ -40,4 +41,7 @@ a {
       color: #bbb;
     }
   }
+}
+#textarea {
+  width: 200px;
 }

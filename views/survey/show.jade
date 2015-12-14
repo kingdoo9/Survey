@@ -1,0 +1,44 @@
+extends ../layout
+
+block content
+  .container
+    h1.page-header= survey.name
+    p   
+      span at #{moment(survey.createdAt).format('YYYY-MM-DD HH:mm:ss')} 
+       
+    p.well(style='white-space:pre;')= survey.content
+    
+    each question in questions
+      if (question.name=='Selection')
+        p
+          label(for='Quename') 객관식
+          br
+          label(for='Quename')=question.content1
+          .input-group
+            input(type='radio', name='select', value='1')
+            &nbsp;
+            label(for='Quename')=question.content2
+          .input-group
+            input(type='radio', name='select', value='1')
+            &nbsp;
+            label(for='Quename')=question.content3
+          .input-group
+            input(type='radio', name='select', value='1')
+            &nbsp;
+            label(for='Quename')=question.content4
+          .input-group
+            input(type='radio', name='select', value='1')
+            &nbsp;
+            label(for='Quename')=question.content5
+      else if(question.name=='OneQueText')
+        p
+          label(for='Quename') 단일입력
+          input.form-control(type='text', id='textarea', placeholder='Question here', name='select1')
+          input.form-control(type='text', id='textOneQue', placeholder='Input here')
+      else if(question.name=='Opinion')
+        p
+          label(for='Quename') 의견
+          input.form-control(type='text', id='textarea', placeholder='Question here', name='select1')
+          textarea.form-control(id='opinion', rows='5', name='opinion', placeholder='Opinion here')
+    
+    a.btn.btn-default(href='/survey/index') 목록
