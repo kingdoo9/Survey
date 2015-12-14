@@ -41,7 +41,7 @@ module.exports = function(passport) {
     // 이 부분을 여러분 Facebook App의 정보로 수정해야 합니다.
     clientID : '318857098238638',
     clientSecret : '17bf3daa18ebaf751881c62c1494dc5e',
-    callbackURL : 'http://localhost:3000/auth/facebook/callback',
+    callbackURL : 'https://morning-sierra-9474.herokuapp.com/auth/facebook/callback',
     profileFields : ["emails", "displayName", "name", "photos"]
   }, function(token, refreshToken, profile, done) {
     console.log(profile);
